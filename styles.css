@@ -1,0 +1,149 @@
+* {
+
+}
+
+body{
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-family: "Roboto", sans-serif;
+}
+
+canvas {
+    border: 1px solid #ccc;
+    background-color: #f7f9fc;
+    width: 360px;
+    height: 640px;
+}
+
+textarea{
+    padding: 12px;
+    resize: none;
+}
+
+.main{
+    display: flex;
+    align-items: flex-start;
+}
+
+#container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 12px 24px;
+}
+
+.textarea-list{
+    display: grid;
+    /*grid-template-columns: auto auto auto auto auto auto;*/
+    /*grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;*/
+    grid-template-columns: 1fr 1fr 1fr;
+    column-gap: 8px;
+    row-gap: 8px;
+}
+
+.textarea-list > *{
+    width: 213px;
+    height: 250px;
+}
+
+.textarea-list > *:nth-child(6n){
+    /*margin-right: 0;*/
+}
+
+.left{
+    /*margin-right: 16px;*/
+}
+
+.controls{
+    display: flex;
+    justify-content: center;
+    margin-bottom: 8px;
+}
+
+.controls > button{
+    padding: 4px 0;
+    margin-left: 8px;
+    cursor: pointer;
+    width: 100%;
+}
+
+.controls > button:first-child{
+    margin-left: 0;
+}
+
+.canvas-list{
+    display: flex;
+    margin-bottom: 8px;
+}
+
+.canvas-list > *{
+    margin-right: 8px;
+}
+
+.canvas-list > *:last-child{
+    margin-right: 0;
+}
+
+.settings{
+    padding: 12px 24px 0 0;
+}
+
+.settings-block{
+    margin-bottom: 24px;
+}
+
+.settings-title{
+    position: relative;
+    margin-bottom: 12px;
+}
+
+.preloader{
+    width: 24px;
+    height: 24px;
+    margin-left: auto;
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+label{
+    position: relative;
+    display: flex;
+    align-items: center;
+    font-size: 12px;
+    text-transform: uppercase;
+    margin-bottom: 4px;
+    cursor: pointer;
+}
+
+label span{
+    display: block;
+    margin-right: 12px;
+    font-weight: 300;
+}
+
+label input,
+label select{
+    margin-left: auto;
+}
+
+label input[type='color']{
+    width: 48px;
+    height: 22px;
+    padding: 0;
+    padding-inline: revert;
+    margin-left: auto;
+    cursor: pointer;
+}
+
+label input[type='number']{
+    width: 40px;
+}
+
+label select{
+    width: 153px;
+}
