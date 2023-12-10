@@ -6,142 +6,153 @@
     <link rel="stylesheet" href="./styles.css">
 </head>
 <body>
-    <div class='main'>
-        <div id="container">
-            <div class="canvas-list">
-                <canvas id="canvas-twitter" width="1080" height="1920"></canvas>
-                <canvas id="canvas-pure" width="1080" height="1920"></canvas>
+<div class='main'>
+    <div id="container">
+        <div class="canvas-list">
+            <canvas id="canvas-twitter" width="1080" height="1920"></canvas>
+            <canvas id="canvas-pure" width="1080" height="1920"></canvas>
+        </div>
+        <div class="left">
+            <div class="controls">
+                <button id="add-textarea">Add new frame</button>
+                <button id="start-animation">Start animation</button>
             </div>
-            <div class="left">
-                <div class="controls">
-                    <button id="add-textarea">Add new frame</button>
-                    <button id="start-animation">Start animation</button>
-                </div>
-                <div class="textarea-list">
-                    <textarea>Frame 1, Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod.</textarea>
-                    <textarea>Frame 2, Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim, nisi ut aliquip ex ea commodo consequat.</textarea>
-                    <textarea></textarea>
-                </div>
+            <div class="textarea-list">
+                <textarea>Frame 1, Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod.</textarea>
+                <textarea>Frame 2, Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim, nisi ut aliquip ex ea commodo consequat.</textarea>
+                <textarea></textarea>
             </div>
         </div>
-        <div class='settings'>
-            <div class='settings-block'>
-                <div class='settings-title'>INFO:</div>
-                <label>
-                    <span>Avatar:</span>
-                    <input type='text' name='avatar' value='https://pbs.twimg.com/profile_images/1617646545733816321/wgRxM8jP_400x400.jpg'>
-                </label>
-                <label>
-                    <span>Username:</span>
-                    <input type='text' name='userName' value='Justin Evergreen'>
-                </label>
-                <label>
-                    <span>Nickname:</span>
-                    <input type='text' name='userNick' value='@justin.evergreen'>
-                </label>
-            </div>
-            <div class='settings-block'>
-                <div class='settings-title'>
-                    FONT:
-                    <span class='preloader' style='display: none'>
+    </div>
+    <div class='settings'>
+        <div class='settings-block'>
+            <div class='settings-title'>INFO:</div>
+            <label>
+                <span>Avatar:</span>
+                <input type='text' name='avatar' value='https://pbs.twimg.com/profile_images/1617646545733816321/wgRxM8jP_400x400.jpg'>
+            </label>
+            <label>
+                <span>Username:</span>
+                <input type='text' name='userName' value='Justin Evergreen'>
+            </label>
+            <label>
+                <span>Nickname:</span>
+                <input type='text' name='userNick' value='@justin.evergreen'>
+            </label>
+        </div>
+        <div class='settings-block'>
+            <div class='settings-title'>
+                FONT:
+                <span class='preloader' style='display: none'>
                         <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px"
                              viewBox="20 20 60 60" xml:space="preserve">
                             <path fill="currentColor" d="M73,50c0-12.7-10.3-23-23-23S27,37.3,27,50 M30.9,50c0-10.5,8.5-19.1,19.1-19.1S69.1,39.5,69.1,50">
                               <animateTransform
-                                  attributeName="transform"
-                                  attributeType="XML"
-                                  type="rotate"
-                                  dur="1s"
-                                  from="0 50 50"
-                                  to="360 50 50"
-                                  repeatCount="indefinite" />
+                                      attributeName="transform"
+                                      attributeType="XML"
+                                      type="rotate"
+                                      dur="1s"
+                                      from="0 50 50"
+                                      to="360 50 50"
+                                      repeatCount="indefinite" />
                           </path>
                         </svg>
                     </span>
-                </div>
-                <label>
-                    <span>Font Family:</span>
-                    <select name='font'>
-                        <option value='loading' disabled selected>Loading...</option>
-                    </select>
-                </label>
             </div>
-            <div class='settings-block'>
-                <div class='settings-title'>COLORS:</div>
-                <label>
-                    <span>Background:</span>
-                    <input type='color' name='colorBackground' value='#f7f9fc'>
-                </label>
-                <label>
-                    <span>Username:</span>
-                    <input type='color' name='colorName' value='#536471'>
-                </label>
-                <label>
-                    <span>Nickname:</span>
-                    <input type='color' name='colorNick' value='#536471'>
-                </label>
-                <label>
-                    <span>Text:</span>
-                    <input type='color'  name='colorText' value='#536471'>
-                </label>
-            </div>
-            <div class='settings-block'>
-                <div class='settings-title'>SIZES:</div>
-                <label>
-                    <span>Username:</span>
-                    <input type='number' name='nameFontSize' value='40'>
-                </label>
-                <label>
-                    <span>Nickname:</span>
-                    <input type='number' name='nickFontSize' value='40'>
-                </label>
-                <label>
-                    <span>Text:</span>
-                    <input type='number' name='fontSizeNum' value='60'>
-                </label>
-                <label>
-                    <span>IMAGE:</span>
-                    <input type='number' name='imgSize' value='120'>
-                </label>
-                <label>
-                    <span>CHECKMARK:</span>
-                    <input type='number' name='checkmarkSize' value='48'>
-                </label>
-            </div>
-            <div class='settings-block'>
-                <div class='settings-title'>PADDINGS:</div>
-                <label>
-                    <span>Top:</span>
-                    <input type='number' name='paddingY' value='192'>
-                </label>
-                <label>
-                    <span>Horizontal:</span>
-                    <input type='number' name='paddingX' value='120'>
-                </label>
-                <label>
-                    <span>Image bottom:</span>
-                    <input type='number' name='imageMarginBottom' value='90'>
-                </label>
-                <label>
-                    <span>Image right:</span>
-                    <input type='number' name='imageMarginRight' value='90'>
-                </label>
-            </div>
-            <div class='settings-block'>
-                <div class='settings-title'>OTHERS:</div>
-                <label>
-                    <span>Speed:</span>
-                    <input type='number' name='speed' value='25'>
-                </label>
-                <label>
-                    <span>Line Height:</span>
-                    <input type='number' name='lineHeight' value='90'>
-                </label>
-            </div>
+            <label>
+                <span>Font Family:</span>
+                <select name='font'>
+                    <option value='loading' disabled selected>Loading...</option>
+                </select>
+            </label>
+        </div>
+        <div class='settings-block'>
+            <div class='settings-title'>COLORS:</div>
+            <label>
+                <span>Background:</span>
+                <input type='color' name='colorBackground' value='#f7f9fc'>
+            </label>
+            <label>
+                <span>Username:</span>
+                <input type='color' name='colorName' value='#536471'>
+            </label>
+            <label>
+                <span>Nickname:</span>
+                <input type='color' name='colorNick' value='#536471'>
+            </label>
+            <label>
+                <span>Text:</span>
+                <input type='color'  name='colorText' value='#536471'>
+            </label>
+        </div>
+        <div class='settings-block'>
+            <div class='settings-title'>SIZES:</div>
+            <label>
+                <span>Username:</span>
+                <input type='number' name='nameFontSize' value='40'>
+            </label>
+            <label>
+                <span>Nickname:</span>
+                <input type='number' name='nickFontSize' value='40'>
+            </label>
+            <label>
+                <span>Text:</span>
+                <input type='number' name='fontSizeNum' value='60'>
+            </label>
+            <label>
+                <span>IMAGE:</span>
+                <input type='number' name='imgSize' value='120'>
+            </label>
+            <label>
+                <span>CHECKMARK:</span>
+                <input type='number' name='checkmarkSize' value='48'>
+            </label>
+        </div>
+        <div class='settings-block'>
+            <div class='settings-title'>PADDINGS:</div>
+            <label>
+                <span>Top:</span>
+                <input type='number' name='paddingY' value='192'>
+            </label>
+            <label>
+                <span>Horizontal:</span>
+                <input type='number' name='paddingX' value='120'>
+            </label>
+            <label>
+                <span>Image bottom:</span>
+                <input type='number' name='imageMarginBottom' value='90'>
+            </label>
+            <label>
+                <span>Image right:</span>
+                <input type='number' name='imageMarginRight' value='90'>
+            </label>
+        </div>
+        <div class='settings-block'>
+            <div class='settings-title'>OTHERS:</div>
+            <label>
+                <span>Speed:</span>
+                <input type='number' name='speed' value='25'>
+            </label>
+            <label>
+                <span>Line Height:</span>
+                <input type='number' name='lineHeight' value='90'>
+            </label>
+        </div>
+        <div class='settings-block'>
+            <div class='settings-title'>RENDER:</div>
+            <label>
+                <span>Sequentially</span>
+                <input type='radio' name='render' value='sequentially'>
+            </label>
+            <label>
+                <span>Concurrently</span>
+                <input type='radio' name='render' value='concurrently'>
+            </label>
         </div>
     </div>
+</div>
 
-    <script src="./dist/transcode.js"></script>
-    <script src="./index.js"></script>
+<script src="./dist/transcode.js"></script>
+<script src="./index.js"></script>
 </body>
 </html>

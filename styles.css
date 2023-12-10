@@ -144,6 +144,10 @@ label input[type='number']{
     width: 40px;
 }
 
+label input[type='radio']{
+    cursor: pointer;
+}
+
 label select{
     width: 153px;
 }

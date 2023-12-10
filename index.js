@@ -1,6 +1,5 @@
 let withUserInfoRecorder;
 let simpleRecorder;
-// let avatar;
 let checkmark;
 let fontList = [];
 
@@ -26,6 +25,7 @@ const DEFAULT_STATE = {
     colorBackground: '#f7f9fc',
     fontSize: '60px',
     font: { family: 'Roboto', isDefault: true },
+    render: 'sequentially',
 };
 
 const fontPreloaderStatus = status => {
@@ -51,9 +51,9 @@ const fetchFontList = async () => {
 };
 
 const fetchFont = async font => {
-    const googleFontRegular = new FontFace(font.family, `url(${font.files['regular'].replace(/https?/, 'https')})`, { weight: 'normal' });
-    const googleFont300 = new FontFace(font.family, `url(${font.files['300'].replace(/https?/, 'https')})`, { weight: '300' });
-    const googleFont700 = new FontFace(font.family, `url(${font.files['700'].replace(/https?/, 'https')})`, { weight: '700' });
+    const googleFontRegular = new FontFace(font.family, `url(${font.files['regular']})`, { weight: 'normal' });
+    const googleFont300 = new FontFace(font.family, `url(${font.files['300']})`, { weight: '300' });
+    const googleFont700 = new FontFace(font.family, `url(${font.files['700']})`, { weight: '700' });
 
     fontPreloaderStatus(true);
 
@@ -195,13 +195,6 @@ class AnimationRecorder {
     }
 
     downloadVideos(callback) {
-        // const url = this.recorder.customPromise;
-        // const mp4BlobUrl = await transcode(url);
-        // const link = document.createElement('a');
-        //
-        // link.setAttribute('download', this.fileName);
-        // link.setAttribute('href', mp4BlobUrl);
-        // link.click();
         this.recorder.customPromise.then(async url => {
             const mp4BlobUrl = await transcode(url);
             const link = document.createElement('a');
@@ -213,7 +206,6 @@ class AnimationRecorder {
             callback?.();
         });
 
-        // console.log('Downloading...');
         console.log('Convert WEBM to MP4...');
 
         setTimeout(() => {
@@ -423,7 +415,10 @@ const onInputChange = async e => {
     const input = e.currentTarget;
     const name = input.name;
     const value = input.value;
-    const newState = { [name]: name.includes('color') || name.includes('user') || name.includes('avatar') ? value : Number(value) };
+    const newState = {
+        [name]:
+            name.includes('color') || name.includes('user') || name.includes('avatar') || name.includes('render') ? value : Number(value),
+    };
 
     if (name === 'fontSizeNum') {
         newState['fontSize'] = value + 'px';
@@ -477,6 +472,7 @@ const setupInputsValues = () => {
     const colorName = document.querySelector('input[name="colorName"]');
     const colorNick = document.querySelector('input[name="colorNick"]');
     const colorBackground = document.querySelector('input[name="colorBackground"]');
+    const renderRadio = document.querySelectorAll('input[name="render"]');
 
     avatar.value = state.avatar;
     userName.value = state.userName;
@@ -496,6 +492,12 @@ const setupInputsValues = () => {
     colorName.value = state.colorName;
     colorNick.value = state.colorNick;
     colorBackground.value = state.colorBackground;
+
+    renderRadio.forEach(radio => {
+        radio.value === state.render ? radio.setAttribute('checked', '') : radio.removeAttribute('checked');
+
+        radio.addEventListener('change', onInputChange);
+    });
 
     avatar.addEventListener('input', onAvatarChange);
     userName.addEventListener('input', onInputChange);
@@ -537,6 +539,7 @@ const setupFontSelect = fontList => {
 };
 
 const onBtnStartAnimationClick = () => {
+    const render = getState('render');
     const textAreaList = [...document.querySelectorAll('textarea')];
     const textList = textAreaList.filter(i => i.value.trim()).map(i => i.value);
 
@@ -562,8 +565,16 @@ const onBtnStartAnimationClick = () => {
 
     disableAllButtons();
 
-    withUserInfoRecorder.runAnimationAndRecording(enableAllButtons);
-    simpleRecorder.runAnimationAndRecording(enableAllButtons);
+    if (render === 'sequentially') {
+        withUserInfoRecorder.runAnimationAndRecording(() => {
+            setTimeout(() => {
+                simpleRecorder.runAnimationAndRecording(enableAllButtons);
+            }, 2000);
+        });
+    } else {
+        withUserInfoRecorder.runAnimationAndRecording(enableAllButtons);
+        simpleRecorder.runAnimationAndRecording(enableAllButtons);
+    }
 };
 
 const initialization = async () => {
@@ -597,22 +608,3 @@ const initialization = async () => {
 };
 
 void initialization();
-
-// const worker = new Worker('ffmpeg-worker-webm.js');
-// worker.onmessage = function (e) {
-//     const msg = e.data;
-//     switch (msg.type) {
-//         case 'ready':
-//             worker.postMessage({ type: 'run', arguments: ['-version'] });
-//             break;
-//         case 'stdout':
-//             console.log(msg.data);
-//             break;
-//         case 'stderr':
-//             console.log(msg.data);
-//             break;
-//         case 'done':
-//             console.log(msg.data);
-//             break;
-//     }
-// };
