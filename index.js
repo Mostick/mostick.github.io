@@ -307,9 +307,12 @@ class AnimationRecorder {
         const state = getState();
         const { imgSize, imageMarginBottom, lineHeight } = state;
         let { x, y, splittedText, speed } = params;
+
+        splittedText[splittedText.length - 1] += '   '; // Fix bug with missing last frames
+
         let intervalId = 0;
         let counter = 0;
-        let rowCounter = 0;
+        let currentTextLength = 0;
         let rowIndex = 0;
         let splittedTextLength = splittedText.join(' ').length;
         let avatarImg = await preloadAvatar();
@@ -327,7 +330,7 @@ class AnimationRecorder {
                 return;
             }
 
-            const currentText = currentRow.slice(0, rowCounter);
+            const currentText = currentRow.slice(0, currentTextLength);
 
             this.drawBackground();
 
@@ -344,11 +347,11 @@ class AnimationRecorder {
             }
 
             counter++;
-            rowCounter++;
+            currentTextLength++;
 
-            if (rowCounter > currentRow.length) {
+            if (currentTextLength > currentRow.length) {
                 rowIndex++;
-                rowCounter = 0;
+                currentTextLength = 0;
             }
 
             if (counter > splittedTextLength) {
