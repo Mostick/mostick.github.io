@@ -51,9 +51,9 @@ const fetchFontList = async () => {
 };
 
 const fetchFont = async font => {
-    const googleFontRegular = new FontFace(font.family, `url(${font.files['regular']})`, { weight: 'normal' });
-    const googleFont300 = new FontFace(font.family, `url(${font.files['300']})`, { weight: '300' });
-    const googleFont700 = new FontFace(font.family, `url(${font.files['700']})`, { weight: '700' });
+    const googleFontRegular = new FontFace(font.family, `url(${font.files['regular'].replace(/https?/, 'https')})`, { weight: 'normal' });
+    const googleFont300 = new FontFace(font.family, `url(${font.files['300'].replace(/https?/, 'https')})`, { weight: '300' });
+    const googleFont700 = new FontFace(font.family, `url(${font.files['700'].replace(/https?/, 'https')})`, { weight: '700' });
 
     fontPreloaderStatus(true);
 
