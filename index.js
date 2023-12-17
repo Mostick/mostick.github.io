@@ -145,9 +145,21 @@ const record = canvas => {
 };
 
 const splitOnRows = (ctx, text, maxWidth) => {
-    const words = text.split(' ');
-    const rows = [''];
     let rowIndex = 0;
+
+    const rows = [''];
+    const sentences = text.split('\n');
+    const words = (() => {
+        let result = [];
+
+        sentences.forEach(sentence => {
+            const singleWords = sentence.trim().split(' ');
+            result.push(...singleWords);
+            if (sentence !== '') result.push('');
+        });
+
+        return result;
+    })();
 
     for (let i = 0; i < words.length; i++) {
         const currentWord = words[i];
@@ -155,9 +167,14 @@ const splitOnRows = (ctx, text, maxWidth) => {
         const rowWidth = ctx.measureText(currentRow).width;
         const newLines = [...currentWord].filter(i => i === '\n').length;
 
+        if (currentWord === '') {
+            rowIndex++;
+            rows[rowIndex] = '';
+            continue;
+        }
+
         if (newLines > 0) {
             for (let m = 0; m < newLines - 1; m++) {
-                // THERE IS A BUG WITH WORD WRAPS
                 rowIndex++;
                 rows[rowIndex] = '';
             }
@@ -277,7 +294,7 @@ class AnimationRecorder {
         this.ctx.restore();
     }
 
-    async simpleRenderText() {
+    async simpleRenderText(textList) {
         if (this.isRecording) return;
 
         const state = getState();
@@ -287,7 +304,7 @@ class AnimationRecorder {
         this.ctx.font = `${fontSize} ${font.family}, cursive`;
         this.ctx.fillStyle = colorText;
 
-        const text = this.sliderTextList[0] || '';
+        const text = textList[0] || this.sliderTextList[0] || '';
         const splittedText = splitOnRows(this.ctx, text, this.canvas.width - paddingX * 2);
         const x = paddingX;
         const y = paddingY;
@@ -307,8 +324,9 @@ class AnimationRecorder {
         const state = getState();
         const { imgSize, imageMarginBottom, lineHeight } = state;
         let { x, y, splittedText, speed } = params;
+        let firstEmptyFrames = 2; // Fix bug with the first frame
 
-        splittedText[splittedText.length - 1] += '   '; // Fix bug with missing last frames
+        splittedText[splittedText.length - 1] += '    '; // Fix bug with missing last frames
 
         let intervalId = 0;
         let counter = 0;
@@ -346,8 +364,12 @@ class AnimationRecorder {
                 }
             }
 
-            counter++;
-            currentTextLength++;
+            if (firstEmptyFrames) {
+                firstEmptyFrames--;
+            } else {
+                counter++;
+                currentTextLength++;
+            }
 
             if (currentTextLength > currentRow.length) {
                 rowIndex++;
@@ -402,16 +424,16 @@ class AnimationRecorder {
 }
 
 const simpleRender = () => {
-    if (!withUserInfoRecorder || !simpleRecorder) {
-        const textAreaList = [...document.querySelectorAll('textarea')];
-        const textList = textAreaList.filter(i => i.value.trim()).map(i => i.value);
+    const textAreaList = [...document.querySelectorAll('textarea')];
+    const textList = textAreaList.filter(i => i.value.trim()).map(i => i.value);
 
+    if (!withUserInfoRecorder || !simpleRecorder) {
         withUserInfoRecorder = new AnimationRecorder(document.querySelector('#canvas-twitter'), textList, true);
         simpleRecorder = new AnimationRecorder(document.querySelector('#canvas-pure'), textList, false);
     }
 
-    withUserInfoRecorder?.simpleRenderText();
-    simpleRecorder?.simpleRenderText();
+    withUserInfoRecorder?.simpleRenderText(textList);
+    simpleRecorder?.simpleRenderText(textList);
 };
 
 const onInputChange = async e => {
@@ -476,6 +498,7 @@ const setupInputsValues = () => {
     const colorNick = document.querySelector('input[name="colorNick"]');
     const colorBackground = document.querySelector('input[name="colorBackground"]');
     const renderRadio = document.querySelectorAll('input[name="render"]');
+    const textAreaList = [...document.querySelectorAll('textarea')];
 
     avatar.value = state.avatar;
     userName.value = state.userName;
@@ -500,6 +523,10 @@ const setupInputsValues = () => {
         radio.value === state.render ? radio.setAttribute('checked', '') : radio.removeAttribute('checked');
 
         radio.addEventListener('change', onInputChange);
+    });
+
+    textAreaList.forEach(textarea => {
+        textarea.addEventListener('input', simpleRender);
     });
 
     avatar.addEventListener('input', onAvatarChange);
@@ -588,7 +615,7 @@ const initialization = async () => {
 
     setupInputsValues();
 
-    preloadAvatar();
+    void preloadAvatar();
     const [mark, fonts] = await Promise.all([preloadCheckmark(), fetchFontList()]);
 
     checkmark = mark;
