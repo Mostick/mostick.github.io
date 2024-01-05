@@ -308,7 +308,7 @@ class AnimationRecorder {
         const { imgSize, imageMarginBottom, lineHeight, paddingX, paddingY, fontSize, font, colorText } = state;
 
         this.ctx.textBaseline = 'top';
-        this.ctx.font = `${fontSize} ${font.family}, cursive`;
+        this.ctx.font = `${fontSize} ${font.family}`;
         this.ctx.fillStyle = colorText;
 
         const text = textList[0] || this.sliderTextList[0] || '';
