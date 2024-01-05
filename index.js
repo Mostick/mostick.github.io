@@ -35,19 +35,26 @@ const fontPreloaderStatus = status => {
 };
 
 const fetchFontList = async () => {
-    const request = await fetch(`https://www.googleapis.com/webfonts/v1/webfonts?key=${API_KEY}&sort=popularity`);
-    const response = await request.json();
-    const fontList = response.items.filter(font => {
-        if (!font.subsets.includes('latin')) return false;
-        if (!font.subsets.includes('cyrillic')) return false;
-        if (!font.variants.includes('regular')) return false;
-        if (!font.variants.includes('300')) return false;
-        if (!font.variants.includes('700')) return false;
+    const API_KEY = prompt('Do you have an API KEY for Google Web Fonts? If so, type it here. Or just left it empty.');
 
-        return true;
-    });
+    if (API_KEY) {
+        const request = await fetch(`https://www.googleapis.com/webfonts/v1/webfonts?key=${API_KEY}&sort=popularity`);
+        const response = await request.json();
+        const fontList = response.items.filter(font => {
+            if (!font.subsets.includes('latin')) return false;
+            if (!font.subsets.includes('cyrillic')) return false;
+            if (!font.variants.includes('regular')) return false;
+            if (!font.variants.includes('300')) return false;
+            if (!font.variants.includes('700')) return false;
 
-    return fontList;
+            return true;
+        });
+
+        return fontList;
+    }
+
+    return [];
+
 };
 
 const fetchFont = async font => {
@@ -555,6 +562,13 @@ const setupFontSelect = fontList => {
 
     select.innerHTML = '';
 
+    if (fontList.length === 0) {
+        select.parentElement.style.opacity = '0.2';
+        select.parentElement.style.pointerEvents = 'none';
+
+        return;
+    }
+
     fontList.forEach(fontItem => {
         const option = document.createElement('option');
 
@@ -621,9 +635,11 @@ const initialization = async () => {
     checkmark = mark;
     fontList = fonts;
 
-    if (state.font.isDefault) currentFont = fontList.find(i => i.family === state.font.family);
+    if (state.font.isDefault && fontList.length) {
+        currentFont = fontList.find(i => i.family === state.font.family);
 
-    await fetchFont(currentFont);
+        await fetchFont(currentFont);
+    }
 
     setupFontSelect(fontList);
     simpleRender();
