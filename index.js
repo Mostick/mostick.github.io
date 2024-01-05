@@ -3,11 +3,10 @@ let simpleRecorder;
 let checkmark;
 let fontList = [];
 
-const API_KEY = 'AIzaSyACCEBmessvgVjxOJRRTg8t7_OCfJEl6KM';
 const DEFAULT_STATE = {
-    avatar: 'https://pbs.twimg.com/profile_images/1617646545733816321/wgRxM8jP_400x400.jpg',
-    userName: 'Justin Evergreen',
-    userNick: '@justin.evergreen',
+    avatar: 'https://pbs.twimg.com/profile_images/1683325380441128960/yRsRRjGO_200x200.jpg',
+    userName: 'User Name',
+    userNick: '@user.nickname',
     speed: 25,
     imgSize: 120,
     paddingY: 192,
